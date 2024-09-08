@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png"><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+
+  <title>Frontend Mentor | Time tracking dashboard</title>
+
+  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+  <style>
+    *{
+      margin: 0;
+      padding:0 ;
+      box-sizing: border-box;
+    }
+    :root{
+      --Blue: hsl(246, 80%, 60%);
+      --Light_red_work: hsl(15, 100%, 70%);
+      --Soft_blue_play: hsl(195, 74%, 62%);
+      --Light_red_study: hsl(348, 100%, 68%);
+      --Lime_green_exercise: hsl(145, 58%, 55%);
+      --Violet_social: hsl(264, 64%, 52%);
+      --Soft_orange_selfcare: hsl(43, 84%, 65%);
+      
+      --Very_dark_blue: hsl(226, 43%, 10%);
+      --Dark_blue: hsl(235, 46%, 20%);
+      --Desaturated_blue: hsl(235, 45%, 61%);
+      --Pale_Blue: hsl(236, 100%, 87%);
+      --light_white: hsl(235,33%,90.4%);
+      --radius:1rem;
+      font-size:18px;
+
+    }
+    body{
+        font-family: 'Rubik'  , Sans-Serif;
+        background: var(--Very_dark_blue);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 200vh;
+    }
+    .hide{
+      display: none !important;
+    }
+    .attribution { font-size: 11px; text-align: center; }
+    .attribution a { color: hsl(228, 45%, 44%); }
+    
+    
+    .grid{
+      width:clamp(300px, 90vw , 550px);
+      height:clamp(1300px, 180vh , 1600px);
+     // border: solid white;
+      
+      display: grid;
+      place-items: center;
+      gap:20px;
+      grid-template-rows: 1.4fr repeat(6, 1fr);
+      border-radius: var(--radius);
+    }
+    
+    .grid > .grid_child{
+      height: 100%;
+      width: 100%;
+      background: white;
+      border-radius: var(--radius);
+      background-color: var(--color);
+      background-image: var(--img);
+      background-repeat: no-repeat;
+      background-position:95% 0%;
+      position: relative;
+    }
+    .grid_child > .info{
+      width: 100%;
+      height: 70%;
+      background-color:var(--Dark_blue) ;
+      padding: 0 10%;
+      position: absolute;
+      bottom: 0;
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      
+      gap:10px;
+      cursor: pointer;
+      
+    }
+     
+    .info > *{
+     
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color:var(--light_white);
+    }
+    .info .time h2{
+      font-weight:300;
+      font-size: 1.8rem;
+    }
+    .info .time .last_week{
+      color: var(--Pale_Blue);
+      font-weight:300;
+      text-align: right;
+    }
+    .grid_child:hover .info{
+      background-color: hsl(235, 46%, 35%);
+    }
+    
+    .grid .about .personal_info{
+      height: 65%;
+      width: 100%;
+      
+      background-color: var(--Blue);
+      border-radius: var(--radius);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap:1rem;
+      color:var(--light_white);
+    }
+    .personal_info img {
+      height:min( 45% , 70px);
+      aspect-ratio: 1/1;
+      border:2px solid  white;
+      border-radius: 50%;
+    }
+    .personal_info div h2 {
+      font-weight: 400;
+    }
+    .grid .about .tabs{
+      height: 35%;
+      width: 100%;
+      
+      color: var(--Desaturated_blue) ;
+      display: flex;
+      justify-content:space-around;
+      align-items: center;
+    }
+    .tabs span{
+      font-weight: 500;
+    }
+    .active{
+      color:var(--light_white);
+    }
+    .name{
+      color:var(--Pale_Blue);
+    }
+    .fixed{
+      position: fixed;
+      z-index: 9;
+      background: white;
+      height: 100px;
+      width: 100px;
+      line-height: 100px;
+      text-align: center;
+      display: none;
+    }
+    
+    @media (min-width: 1440px) { 
+      :root{
+        font-size: 23px;
+      }
+      .grid{
+        width: 90vw;
+        height:clamp(600px, 180vh , 700px);
+        
+        grid-template-rows: 1fr 1fr;
+        grid-template-columns: repeat(4,1fr);
+      }
+      .grid .about{
+        grid-row: 1/3;
+      }
+     .grid .about .personal_info{
+       flex-direction: column;
+       align-items: unset;
+       padding: 10%;
+       align-items: flex-start;
+       gap:2rem;
+     }
+     .grid .info{
+       gap:1.8rem;
+     }
+     .grid .about .tabs{
+       flex-direction: column;
+       justify-content: space-around;
+       align-items: flex-start;
+       padding: 10%;
+     }
+     .info .time{
+       flex-direction: column;
+       gap:.2rem;
+       align-items: unset;
+     }
+     .info .time .last_week{
+       text-align: left;
+     }
+     .info .time h2{
+       font-size:3.5rem;
+     }
+     .personal_info img {
+      height: 100px;
+    }
+    .name{
+      display: inline-block;
+      margin: .7rem 0;
+    }
+    }
+
+  </style>
+</head>
+<body>
+<div class="fixed"></div>
+<div class="grid">
+  <div class="grid_child about" style="--color:var( --Dark_blue);">
+    <div class="personal_info">
+      <img src="images/image-jeremy.png" alt="">
+      <div >
+        <span class="name">Report for</span>
+        <h2 >Jeremy Robson</h2>
+      </div>
+    </div>
+    <div class="tabs">
+      <span data-title="daily" onclick="active(event)">Daily</span>
+      <span data-title="weekly" onclick="active(event)" class="active">Weekly</span>
+      <span data-title="monthly" onclick="active(event)" >Monthly</span>
+    </div>
+  </div>
+  <div class="grid_child" style="--color:var(--Light_red_work);
+  --img:url('images/icon-work.svg');">
+    <div class="info">
+      <div class="header">
+        <strong class="title">
+          Work
+        </strong>
+        <img src="images/icon-ellipsis.svg" alt="">
+      </div>
+      <div class="time">
+        <h2>
+          32hrs
+        </h2>
+        <span class="last_week">
+          Last Week - 36hrs
+        </span>
+      </div>
+      
+    </div>
+  </div>
+  <div class="grid_child" style="--color:var(--Soft_blue_play);
+  --img:url('images/icon-play.svg');">
+    <div class="info">
+      <div class="header">
+        <strong class="title">
+          Play
+        </strong>
+        <img src="images/icon-ellipsis.svg" alt="">
+      </div>
+      <div class="time">
+        <h2>
+          10hrs
+        </h2>
+        <span class="last_week">
+          Last Week - 8hrs
+        </span>
+      </div>
+      
+    </div>
+  </div>
+  <div class="grid_child" style="--color:var(--Light_red_study); 
+  --img:url('images/icon-study.svg');">
+     <div class="info">
+      <div class="header">
+        <strong class="title">
+          Study
+        </strong>
+        <img src="images/icon-ellipsis.svg" alt="">
+      </div>
+      <div class="time">
+        <h2>
+          4hrs 
+        </h2>
+        <span class="last_week">
+          Last Week - 7hrs
+        </span>
+      </div>
+      
+    </div>
+  </div>
+  <div class="grid_child" style="--color:var(--Lime_green_exercise);  
+  --img:url('images/icon-exercise.svg');">
+    <div class="info">
+      <div class="header">
+        <strong class="title">
+          Exercise
+        </strong>
+        <img src="images/icon-ellipsis.svg" alt="">
+      </div>
+      <div class="time">
+        <h2>
+          4hrs
+        </h2>
+        <span class="last_week">
+          Last Week - 5hrs
+        </span>
+      </div>
+      
+    </div>
+  </div>
+  <div class="grid_child" style="--color:var(--Violet_social);   
+  --img:url('images/icon-social.svg');">
+    <div class="info">
+      <div class="header">
+        <strong class="title">
+          Social
+        </strong>
+        <img src="images/icon-ellipsis.svg" alt="">
+      </div>
+      <div class="time">
+        <h2>
+          5hrs
+        </h2>
+        <span class="last_week">
+          Last Week - 10hrs
+        </span>
+      </div>
+      
+    </div>
+  </div>
+  <div class="grid_child" style="--color:var(--Soft_orange_selfcare);  
+  --img:url('images/icon-self-care.svg');">
+    <div class="info">
+      <div class="header">
+        <strong class="title">
+          Self Care
+        </strong>
+        <img src="images/icon-ellipsis.svg" alt="">
+      </div>
+      <div class="time">
+        <h2>
+          2hrs
+        </h2>
+        <span class="last_week">
+          Last Week - 2hrs
+        </span>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+  
+  
+  <div class="attribution hide">
+    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
+    Coded by <a href="#">Your Name Here</a>.
+  </div>
+  
+  <script>
+    const data = [
+  {
+    "title": "Work",
+    "timeframes": {
+      "daily": {
+        "current": 5,
+        "previous": 7
+      },
+      "weekly": {
+        "current": 32,
+        "previous": 36
+      },
+      "monthly": {
+        "current": 103,
+        "previous": 128
+      }
+    }
+  },
+  {
+    "title": "Play",
+    "timeframes": {
+      "daily": {
+        "current": 1,
+        "previous": 2
+      },
+      "weekly": {
+        "current": 10,
+        "previous": 8
+      },
+      "monthly": {
+        "current": 23,
+        "previous": 29
+      }
+    }
+  },
+  {
+    "title": "Study",
+    "timeframes": {
+      "daily": {
+        "current": 0,
+        "previous": 1
+      },
+      "weekly": {
+        "current": 4,
+        "previous": 7
+      },
+      "monthly": {
+        "current": 13,
+        "previous": 19
+      }
+    }
+  },
+  {
+    "title": "Exercise",
+    "timeframes": {
+      "daily": {
+        "current": 1,
+        "previous": 1
+      },
+      "weekly": {
+        "current": 4,
+        "previous": 5
+      },
+      "monthly": {
+        "current": 11,
+        "previous": 18
+      }
+    }
+  },
+  {
+    "title": "Social",
+    "timeframes": {
+      "daily": {
+        "current": 1,
+        "previous": 3
+      },
+      "weekly": {
+        "current": 5,
+        "previous": 10
+      },
+      "monthly": {
+        "current": 21,
+        "previous": 23
+      }
+    }
+  },
+  {
+    "title": "Self Care",
+    "timeframes": {
+      "daily": {
+        "current": 0,
+        "previous": 1
+      },
+      "weekly": {
+        "current": 2,
+        "previous": 2
+      },
+      "monthly": {
+        "current": 7,
+        "previous": 11
+      }
+    }
+  }
+]
+    function active(event){
+        const h2 = document.querySelectorAll(".time h2");
+        const span = document.querySelectorAll(".time .last_week");
+      
+        document.querySelector(".active").classList.remove("active");
+        event.target.classList.add("active");
+        
+        for(let i = 0; i<data.length; i++)
+        {
+          h2[i].innerText =
+          data[i].timeframes[event.target.dataset.title].current + "hrs"; 
+          span[i].innerText = "Last Week - " +
+          data[i].timeframes[event.target.dataset.title].previous + "hrs";
+        }
+    }
+    
+    function re(){
+      document.querySelector(".fixed").innerText = 
+      document.querySelector(".grid").clientHeight;
+    }
+    re();
+    
+    window.addEventListener("resize" , re)
+  </script>
+</body>
+</html>
